@@ -19,7 +19,7 @@ Source21:	crafty.rc.5.bz2
 # 1-20: Mandriva patches
 # (Abel) Makefile linux-sparc target support, and don't
 # add smp and i686 flags in default build
-Patch0:		crafty-19.19-makefile.patch.bz2
+Patch0:		crafty-19.19-makefile.patch
 # (Abel) read help file in shared folder, not $cwd
 Patch1:		crafty-19.19-help-path.patch.bz2
 # (Abel) Fix for gcc 4.0
