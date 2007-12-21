@@ -8,6 +8,7 @@ Release:	%{release}
 License:	Freeware
 Group:		Games/Boards
 URL:		http://www.cis.uab.edu/info/faculty/hyatt/hyatt.html
+Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 Source:		ftp://ftp.cis.uab.edu/pub/hyatt/source/%{name}-%{version}.tar.bz2
 Source10:	%{name}.sh.bz2
