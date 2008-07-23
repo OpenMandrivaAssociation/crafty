@@ -1,5 +1,5 @@
 %define version 19.19
-%define release %mkrel 3
+%define release %mkrel 5
 
 Summary:	A free chess program, plays decent game of chess
 Name:		crafty
