@@ -1,0 +1,147 @@
+--- crafty-19.19/Makefile.opt	2005-02-18 03:18:05.000000000 +0800
++++ crafty-19.19/Makefile	2005-07-14 20:42:24.000000000 +0800
+@@ -76,6 +76,16 @@
+ #                     with the large egtb.cpp code/templates.
+ #   
+ 
++ifeq ($(NCPUS),)
++NCPUS = 1
++endif
++
++ifeq ($(NCPUS),1)
++SMPFLAGS =
++else
++SMPFLAGS = -DSMP -DCPUS=$(NCPUS)
++endif
++
+ default:
+ 	$(MAKE) -j linux-icc
+ help:
+@@ -177,76 +187,98 @@
+ 		LDFLAGS='$(LDFLAGS) +O3 +Onolimit $(CFLAGS)' \
+ 		crafty-make
+ 
++linux-generic:
++	$(MAKE) target=LINUX \
++		CC=gcc CXX=g++ \
++		CFLAGS='$(OPTIMIZE) -Wall -pipe -D_REENTRANT' \
++		CXFLAGS='$(OPTIMIZE) -Wall -pipe -D_REENTRANT' \
++		LIBS='-lsupc++ -pthread' \
++		opt='$(opt) -DFUTILITY -DFAST \
++                         -DPOSIX -DDGT -DTRACE $(SMPFLAGS)' \
++		crafty-make
++
+ linux:
+ 	$(MAKE) target=LINUX \
+ 		CC=gcc CXX=g++ \
+-		CFLAGS='$(CFLAGS) -Wall -pipe -D_REENTRANT -march=i686 -O3 \
+-			-fforce-mem \
+-			-g -fno-gcse -mpreferred-stack-boundary=2' \
+-		CXFLAGS=$(CFLAGS) \
+-		LDFLAGS='$(LDFLAGS) -g -lpthread -lstdc++' \
++		CFLAGS='$(OPTIMIZE) -Wall -pipe -D_REENTRANT' \
++		CXFLAGS='$(OPTIMIZE) -Wall -pipe -D_REENTRANT' \
++		LIBS='-lsupc++ -pthread' \
++		opt='$(opt) -DFUTILITY -DFAST -DINLINE_ASM \
++                         -DPOSIX -DDGT -DTRACE $(SMPFLAGS)' \
++		crafty-make
++
++linux-i686:
++	$(MAKE) target=LINUX \
++		CC=gcc CXX=g++ \
++		CFLAGS='$(OPTIMIZE) -Wall -pipe -D_REENTRANT' \
++		CXFLAGS='$(OPTIMIZE) -Wall -pipe -D_REENTRANT' \
++		LDFLAGS='$(LDFLAGS) -g' \
++		LIBS='-lsupc++ -pthread' \
+ 		opt='$(opt) -DFUTILITY -DFAST -DINLINE_ASM \
+-                         -DPOSIX -DSMP -DCPUS=2' \
++                         -DPOSIX -DDGT -DTRACE $(SMPFLAGS)' \
+ 		crafty-make
+ 
+ linux-amd64:
+ 	$(MAKE) target=LINUX \
+ 		CC=gcc CXX=g++ \
+-		CFLAGS='$(CFLAGS) -Wall -pipe -D_REENTRANT \
+-		-fomit-frame-pointer -O3' \
+-		CXFLAGS=$(CFLAGS) \
+-		LDFLAGS='$(LDFLAGS) -lpthread -lstdc++' \
+-		opt='$(opt) -DPOSIX -DFAST -DSMP -DCPUS=4 \
+-		         -DFUTILITY -DUSE_ASSEMBLY -DINLINE_AMD' \
++		CFLAGS='$(OPTIMIZE) -Wall -pipe -D_REENTRANT' \
++		CXFLAGS='$(OPTIMIZE) -Wall -pipe -D_REENTRANT' \
++		LDFLAGS='$(LDFLAGS) -g' \
++		LIBS='-lsupc++ -pthread' \
++		opt='$(opt) -DFUTILITY -DFAST -DUSE_ASSEMBLY -DINLINE_AMD \
++		         -DPOSIX -DDGT -DTRACE $(SMPFLAGS)' \
+ 		crafty-make
+ 
+ linux-profile:
+ 	$(MAKE) target=LINUX \
+ 		CC=gcc CXX=g++ \
+-		CFLAGS='$(CFLAGS) -Wall -pipe -D_REENTRANT -march=i686 -O3 \
++		CFLAGS='$(OPTIMIZE) -Wall -pipe -D_REENTRANT -march=i686 \
+ 			-fprofile-arcs -fforce-mem \
+ 			-fno-gcse -mpreferred-stack-boundary=2' \
+ 		CXFLAGS=$(CFLAGS) \
+-		LDFLAGS='$(LDFLAGS) -fprofile-arcs -lstdc++ -lpthread' \
++		LDFLAGS='$(LDFLAGS) -g -fprofile-arcs' \
++		LIBS='-lsupc++ -pthread' \
+ 		opt='$(opt) -DFUTILITY -DINLINE_ASM -DFAST \
+-		         -DPOSIX -DSMP -DCPUS=4' \
++		         -DPOSIX -DDGT -DTRACE $(SMPFLAGS)' \
+ 		crafty-make
+ 
+ linux-icc-profile:
+ 	$(MAKE) target=LINUX \
+ 		CC=icc CXX=icc \
+-		CFLAGS='$(CFLAGS) -D_REENTRANT -O2 \
++		CFLAGS='$(OPTIMIZE) -D_REENTRANT \
+                         -xN -prof_genx -prof_dir ./profdir \
+                         -Ob2 -fno-alias' \
+-		CXFLAGS='$(CFLAGS) -D_REENTRANT -O2 \
++		CXFLAGS='$(CFLAGS) -D_REENTRANT \
+                         -w -xN -prof_genx -prof_dir ./profdir' \
+-		LDFLAGS='$(LDFLAGS) -lstdc++ -lpthread' \
++		LDFLAGS='$(LDFLAGS)' \
++		LIBS='-lsupc++ -pthread' \
+ 		opt='$(opt) -DFUTILITY -DFAST -DINLINE_ASM \
+-                         -DPOSIX -DSMP -DCPUS=2' \
++                         -DPOSIX -DDGT -DTRACE $(SMPFLAGS)' \
+ 		crafty-make
+ 
+ linux-icc:
+ 	$(MAKE) target=LINUX \
+ 		CC=icc CXX=icc \
+-		CFLAGS='$(CFLAGS) -D_REENTRANT -O2 \
++		CFLAGS='$(OPTIMIZE) -D_REENTRANT \
+                         -xN -prof_use -prof_dir ./profdir \
+                         -Ob2 -fno-alias' \
+-		CXFLAGS='$(CFLAGS) -D_REENTRANT -O2 \
++		CXFLAGS='$(CFLAGS) -D_REENTRANT \
+                         -w -xN -prof_use -prof_dir ./profdir' \
+-		LDFLAGS='$(LDFLAGS) -lstdc++ -lpthread' \
++		LDFLAGS='$(LDFLAGS)' \
++		LIBS='-lsupc++ -pthread' \
+ 		opt='$(opt) -DFUTILITY -DFAST -DINLINE_ASM \
+-                         -DPOSIX -DSMP -DCPUS=2' \
++                         -DPOSIX -DDGT -DTRACE $(SMPFLAGS)' \
+ 		crafty-make
+ 
+ linux-alpha:
+ 	$(MAKE) target=ALPHA \
+ 		CC=gcc CXX=g++ \
+-		CFLAGS='$(CFLAGS) -O4 -ffast-math -funroll-loops' \
+-		CXFLAGS=$(CFLAGS) \
+-		LDFLAGS='$(LDFLAGS) $(CFLAGS)' \
+-		LIBS='-lpthread' \
+-		opt='$(opt) -DFUTILITY -DSMP -DCPUS=8 -DFAST -DPOSIX \
+-                         -DNOBUILTINS' \
++		CFLAGS='$(OPTIMIZE) -Wall -pipe -D_REENTRANT' \
++		CXFLAGS='$(OPTIMIZE) -Wall -pipe -D_REENTRANT' \
++		LDFLAGS='$(LDFLAGS)' \
++		LIBS='-lsupc++ -pthread' \
++		opt='$(opt) -DFUTILITY $(SMPFLAGS) -DFAST -DPOSIX \
++                         -DNOBUILTINS -DDGT -DTRACE' \
+ 		crafty-make
+ 
+ netbsd:
