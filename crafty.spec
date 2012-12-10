@@ -1,5 +1,6 @@
 %define version 19.19
-%define release %mkrel 6
+%define release 5
+%define Werror_cflags %nil
 
 Summary:	A free chess program, plays decent game of chess
 Name:		crafty
@@ -8,8 +9,6 @@ Release:	%{release}
 License:	Freeware
 Group:		Games/Boards
 URL:		http://www.cis.uab.edu/info/faculty/hyatt/hyatt.html
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
-
 Source:		ftp://ftp.cis.uab.edu/pub/hyatt/source/%{name}-%{version}.tar.bz2
 Source10:	%{name}.sh.bz2
 Source11:	%{name}-opening-book.tar.bz2
@@ -52,6 +51,8 @@ Patch44:	crafty-19.19-memleak.patch.bz2
 # (Abel) strcpy -> strncpy, sprintf -> snprintf
 Patch45:	crafty-19.19-overflow.patch.bz2
 
+BuildRequires: libstdc++-devel
+BuildRequires: libstdc++-static-devel
 Provides:	chessengine
 
 %description
@@ -88,6 +89,7 @@ bzcat %{SOURCE12} > crafty.txt
 
 %build
 %{?cpus: export NCPUS=%cpus}
+LDFLAGS="%{ldflags} -lsupc++"
 
 %ifarch x86_64 amd64
 make linux-amd64 OPTIMIZE='-ffast-math %optflags'
@@ -122,8 +124,6 @@ make linux-generic OPTIMIZE='-ffast-math %optflags'
 %endif
 
 %install
-rm -rf %{buildroot}
-
 mkdir -p %{buildroot}%{_gamesbindir}
 install -m 755 crafty %{buildroot}/%{_gamesbindir}/crafty.real
 
@@ -138,13 +138,12 @@ mkdir -p %{buildroot}%{_mandir}/man{5,6}
 bzip2 -dc %{SOURCE20} > %{buildroot}%{_mandir}/man6/crafty.6
 bzip2 -dc %{SOURCE21} > %{buildroot}%{_mandir}/man5/crafty.rc.5
 
-%clean
-rm -rf %{buildroot}
-
 %files
 %defattr (-,root,root)
 %doc crafty.txt
 %{_gamesbindir}/*
 %{_gamesdatadir}/crafty
 %{_mandir}/man?/*
+
+
 

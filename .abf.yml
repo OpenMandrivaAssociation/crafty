@@ -1,7 +1,19 @@
 sources:
-  "crafty-19.19.tar.bz2:"	ea37d6dd07cfa971f36b66736e59703490aa5b63
-  "crafty.6.bz2:"	0110b6745b6743be6421788987210a6d7e720fd2
-  "crafty-opening-book.tar.bz2:"	87ed971df227f6a42ef496eb9c5922720d9023f2
-  "crafty.rc.5.bz2:"	ab90faf71679e1096a606f85eaa71f609ab59588
-  "crafty.sh.bz2:"	f995f9af4857e71ce6ff327e7150092f3ea4f872
-  "crafty.txt.bz2:"	3d1e1168413fbc029d5d1b9bb14c2058afb2c68f
+  "crafty-19.19-alpha.patch.bz2": f1c4ba3b5fc3ddc7db38cf5efe86e98d208c3386
+  "crafty-19.19-gcc40.patch.bz2": 16daf6cb46f50250b92da6ce26c83919a83fed62
+  "crafty-19.19-global-config.patch.bz2": 705e12e1cc9641479791fa8b766cfec8760ee57e
+  "crafty-19.19-globalbookpath.patch.bz2": 2b2afd6cb67860246af8649e4284554d1998b9bf
+  "crafty-19.19-help-path.patch.bz2": 7fd35249954ba9b8b561c8b26cc89eadb9035305
+  "crafty-19.19-initialize-book.patch.bz2": df7eb342440c82e2d1196c844333e1d675ca8e37
+  "crafty-19.19-memleak.patch.bz2": 357550bb9732d423d6853df2158481da2af0843d
+  "crafty-19.19-overflow.patch.bz2": 194b30ca88b2b6ea42c6040a2ab5f8e1dba06334
+  "crafty-19.19-security-flaw.patch.bz2": 55c90728b39c286853920670cb7d2789ae807788
+  "crafty-19.19-segfault.patch.bz2": 0adb287a277dc2fa069f5161ac3c75da0cd7d3fd
+  "crafty-19.19-va-arg.patch.bz2": c46ea13fad12a1b0070ec0b80b2d2656bf131b02
+  "crafty-19.19-warnings.patch.bz2": 54d1f019887f59572833ba1f0c6555f0908e89c0
+  "crafty-19.19.tar.bz2": ea37d6dd07cfa971f36b66736e59703490aa5b63
+  "crafty-opening-book.tar.bz2": 87ed971df227f6a42ef496eb9c5922720d9023f2
+  "crafty.6.bz2": 0110b6745b6743be6421788987210a6d7e720fd2
+  "crafty.rc.5.bz2": ab90faf71679e1096a606f85eaa71f609ab59588
+  "crafty.sh.bz2": f995f9af4857e71ce6ff327e7150092f3ea4f872
+  "crafty.txt.bz2": 3d1e1168413fbc029d5d1b9bb14c2058afb2c68f
