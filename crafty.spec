@@ -1,5 +1,5 @@
 %define version 19.19
-%define release 5
+%define release 6
 %define Werror_cflags %nil
 
 Summary:	A free chess program, plays decent game of chess
